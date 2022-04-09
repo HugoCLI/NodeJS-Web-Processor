@@ -63,12 +63,12 @@ class Server {
     actionServer(req, res) {
         let route = url.parse(req.url).pathname;
         const servername = req.headers['host'];
-        if (!ip) return res.write('Identity verification failed');
+        if (!servername) return res.write('Identity verification failed');
         if (route === '/') route = '/index';
 
 
         message.server('GET '+route+' by '+ip);
-        
+
         if (fs.existsSync('/apps/website/' + servername + '/'+route+'.html')) {
             console.log('GET 200 ' + route);
             res.writeHead(200, {"Content-Type": "text/html"});
