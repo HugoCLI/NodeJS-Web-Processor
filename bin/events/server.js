@@ -67,7 +67,7 @@ class Server {
         if (route === '/') route = '/index';
 
 
-        message.server('GET '+route+' by '+ip);
+        message.server('GET '+route+' by '+servername);
 
         if (fs.existsSync('/apps/website/' + servername + '/'+route+'.html')) {
             console.log('GET 200 ' + route);
