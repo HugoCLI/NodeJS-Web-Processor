@@ -66,14 +66,12 @@ class Server {
         if (!servername) return res.write('Identity verification failed');
         if (route === '/') route = '/index';
 
-
-        message.server('GET '+route+' by '+servername);
-
         if (fs.existsSync('/apps/website/' + servername + '/'+route+'.html')) {
-            console.log('GET 200 ' + route);
+            message.server('GET 200 '+route+' by '+servername);
             res.writeHead(200, {"Content-Type": "text/html"});
             res.write(fs.readFileSync('/apps/website/' + servername + '/'+route+'.html', 'utf8'));
         } else {
+            message.erro('GET 404 '+route+' by '+servername);
             res.writeHead(404, {"Content-Type": "text/html"});
             res.write('GET 404 / No Found');
         }
