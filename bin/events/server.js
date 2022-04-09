@@ -33,7 +33,7 @@ class Server {
     startWebsocket() {
         this.websocket = new WebSocket.Server({ port: 3050, address: 'localhost'});
         message.status('Websocket');
-        message.status(`localhost:8766`);
+        message.status(`localhost:3050`);
 
         this.clients = {};
         this.websocket.on('connection', (ws, req) => {
@@ -62,16 +62,17 @@ class Server {
 
     actionServer(req, res) {
         let route = url.parse(req.url).pathname;
-        const ip = req.headers['host'];
+        const servername = req.headers['host'];
         if (!ip) return res.write('Identity verification failed');
         if (route === '/') route = '/index';
 
 
         message.server('GET '+route+' by '+ip);
-        if (fs.existsSync('./public/' + route + '.html')) {
+        
+        if (fs.existsSync('/apps/website/' + servername + '/'+route+'.html')) {
             console.log('GET 200 ' + route);
             res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(fs.readFileSync('./public/' + route + '.html', 'utf8'));
+            res.write(fs.readFileSync('/apps/website/' + servername + '/'+route+'.html', 'utf8'));
         } else {
             res.writeHead(404, {"Content-Type": "text/html"});
             res.write('GET 404 / No Found');

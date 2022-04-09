@@ -1,10 +1,10 @@
 const c = require('colors');
 
 
-const prefix_info = `(${c.cyan('INFO')}) `;
-const prefix_erro = `(${c.red('ALER')}) `;
-const prefix_server = `(${c.yellow('SERVER')}) `;
-const prefix_websocket = `(${c.yellow('WEBSOCKET')}) `;
+const prefix_info = `${c.cyan('(System)')} `;
+const prefix_erro = `${c.red('(Error)')} `;
+const prefix_server = `${c.yellow('(Server)')} `;
+const prefix_websocket = `${c.yellow('(Websocket)')} `;
 
 class Message {
     info(message) { console.log(prefix_info+message); }
