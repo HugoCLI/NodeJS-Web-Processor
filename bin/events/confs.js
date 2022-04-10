@@ -3,7 +3,7 @@ const message = new Message();
 const fs = require("fs");
 
 
-const path = "/apps/NodeJS-Web-Processor/bin/configs/sites-available/";
+const path = "/apps/NodeJS-Processor/bin/configs/sites-available/";
 class Confs {
 
     static exportConfigurations;
