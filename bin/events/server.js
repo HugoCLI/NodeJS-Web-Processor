@@ -1,7 +1,10 @@
 const Message = require('../modules/message');
 const Client = require('./client');
+const Confs = require('./confs');
+
 const message = new Message();
 
+const _DIRWEB = "/apps/website/";
 
 const yargs = require("yargs");
 const WebSocket = require('ws');
@@ -19,7 +22,12 @@ class Server {
 
         this.startServer();
         this.startWebsocket();
-        if(!this.openPort()) return message.erro('Failed to start listening (ERR 0)');
+        if(this.openPort()) {
+            this.confs = new Confs();
+        }
+
+
+
 
     }
 
@@ -34,7 +42,6 @@ class Server {
         this.websocket = new WebSocket.Server({ port: 3050, address: 'localhost'});
         message.status('Websocket');
         message.status(`localhost:3050`);
-
         this.clients = {};
         this.websocket.on('connection', (ws, req) => {
 
@@ -48,13 +55,11 @@ class Server {
 
 
 
-    async openPort() {
+     async openPort() {
+        message.status(`localhost:2050`);
         await this.server.listen(2050, "localhost", () => {
-            message.status(`localhost:${this.server.address().port}`);
-
             return true;
         });
-
 
         return false;
     }
@@ -66,10 +71,12 @@ class Server {
         if (!servername) return res.write('Identity verification failed');
         if (route === '/') route = '/index';
 
-        if (fs.existsSync('/apps/website/' + servername + '/'+route+'.html')) {
+
+        console.log(_DIRWEB + servername +route+'.html');
+        if (fs.existsSync(_DIRWEB + servername +route+'.html')) {
             message.server('GET 200 '+route+' by '+servername);
             res.writeHead(200, {"Content-Type": "text/html"});
-            res.write(fs.readFileSync('/apps/website/' + servername + '/'+route+'.html', 'utf8'));
+            res.write(fs.readFileSync(_DIRWEB + servername + '/'+route+'.html', 'utf8'));
         } else {
             message.erro('GET 404 '+route+' by '+servername);
             res.writeHead(404, {"Content-Type": "text/html"});
